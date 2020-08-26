@@ -5,9 +5,11 @@ window.addEventListener('load', ()=> {
     
     const temperatureDegree = document.querySelector(".temp-degree");
     
-    const windDirection = document.querySelector(".wind-direction")
-    var sheet = document.querySelector(".sheet");
+    const windDirection = document.querySelector(".wind-direction");
+    
     const windSpeed = document.querySelector(".windspeed");
+
+    const rotation = document.querySelector(".rotation");
 
 // Create our shared stylesheet:
 //const sheet = new CSSStyleSheet();
@@ -32,7 +34,7 @@ window.addEventListener('load', ()=> {
             return data.json();
         })
         .then(data => {
-            console.log(data);
+            //console.log(data);
             
             const {air_temperature,                     
                     wind_speed, 
@@ -45,9 +47,9 @@ window.addEventListener('load', ()=> {
             const {symbol_code} = data.properties.timeseries[0].data.next_1_hours.summary;
             const {air_temperature_max} = data.properties.meta.units;
             
-            console.log(symbol_code);
-            console.log(wind_speed);
-            console.log(wind_from_direction);
+           // console.log(symbol_code);
+           // console.log(wind_speed);
+           // console.log(wind_from_direction);
 
             // Set DOM
             temperatureDegree.textContent = air_temperature + ' ' + air_temperature_max;
@@ -55,6 +57,8 @@ window.addEventListener('load', ()=> {
             directionTrunc = Math.trunc(wind_from_direction);
             
             windSpeed.textContent = wind_speed + " " + "ms";
+
+            rotation.textContent = directionTrunc;
             
             //Set Icon
             setIcons(symbol_code, document.querySelector('.icon'));
@@ -62,10 +66,11 @@ window.addEventListener('load', ()=> {
 
             
             function twister (){
-                const transform = `rotate(${directionTrunc})`;
-                sheet = transform;
+                const transform = `rotate(${directionTrunc}deg)`;
+                document.querySelector(".turnMe").style.transform = transform;
                 
-                console.log(sheet);
+                //console.log(transform);
+                
                 
             };
             twister ();
